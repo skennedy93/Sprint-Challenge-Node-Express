@@ -145,4 +145,25 @@ server.delete('/actions/:id', (req, res) => {
         .catch(error => res.status(500).json({ error: 'The action could not be deleted' }));
 });
 
+server.post('/actions', (req, res) => {
+    const { description, notes, completed, project_id } = req.body;
+    if (!description || !notes) {
+        res.status(400).json({ errorMessage: 'Description and notes required.' });
+        return;
+    }
+    dbAction.insert({
+        project_id,
+        description,
+        notes,
+        completed
+    })
+    .then(response => {
+        res.status(201).json(req.body);
+    })
+    .catch(error => {
+        console.error('error', err);
+        res.status(500).json({ error: 'Action could not be saved' });
+        return;
+    })
+});
  server.listen(3000, () => console.log('/n== API on port 3000 ==/n') );
