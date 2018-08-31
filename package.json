@@ -2,7 +2,7 @@
   "name": "Sprint-Challenge-Node-Express",
   "version": "1.0.0",
   "description": "- Please open the `Review.md` file and answer the questions.\r - Use Node.js and Express to design and build an API that performs CRUD operations on **projects** and **actions**.",
-  "main": "knexfile.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
