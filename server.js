@@ -35,4 +35,25 @@ server.get('/projects/:id', (req, res) => {
         res.status(500).json({ error: 'The project could not be retrieved.'})
     })
 });
+
+server.post('/projects', (req, res) => {
+    const { name, description, completed } = req.body;
+    if (!name || !description) {
+        res.status(400).json({ errorMessage: 'Name and description required' });
+        return;
+    }
+    dbProject.insert({
+        name,
+        description,
+        completed
+    })
+    .then(response => {
+        res.status(201).json(req.body);
+    })
+    .catch(error => {
+        console.error('error', err);
+        res.status(500).json({ error: 'Could not save project' });
+        return;
+    })
+});
  server.listen(3000, () => console.log('/n== API on port 3000 ==/n') );
