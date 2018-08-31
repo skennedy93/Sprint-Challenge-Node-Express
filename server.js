@@ -131,5 +131,18 @@ server.get('/actions/:id', (req, res) => {
     })
 });
 
+server.delete('/actions/:id', (req, res) => {
+    const { id } = req.params;
+    dbAction.remove(id)
+        .then(count => {
+            // console.log(count);
+            if (count) {
+                res.status(202).json({ message: 'The action has been deleted'}).end();
+            } else {
+                res.status(404).json({ message: 'The action with that ID does not exist.' })
+            }
+        })
+        .catch(error => res.status(500).json({ error: 'The action could not be deleted' }));
+});
 
  server.listen(3000, () => console.log('/n== API on port 3000 ==/n') );
