@@ -166,4 +166,22 @@ server.post('/actions', (req, res) => {
         return;
     })
 });
+
+server.put('/actions/:id', (req, res) => {
+    const { notes, description } = req.body;
+    if (!notes || !description) {
+        res.status(400).json({ errorMessage: 'Description and notes required.' });
+        return;
+    }
+    dbAction.update(req.params.id, req.body)
+        .then(action => {
+            if (action) {
+                res.status(200).json(req.body)
+            } else {
+                res.status(404).json({ message: 'The action with that ID does not exist.' })
+            }
+            
+        })
+        .catch(err => res.status(500).json({ message: 'Action could not be updated.' }));
+});
  server.listen(3000, () => console.log('/n== API on port 3000 ==/n') );
