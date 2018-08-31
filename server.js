@@ -87,4 +87,31 @@ server.put('/projects/:id', (req, res) => {
         .catch(err => res.status(500).json({ message: 'The project could not be updated.' }));
 });
 
+server.get('/projects/:id/actions', (req, res) => {
+    dbProject.getProjectActions(req.params.id)
+    .then(projectActions => {
+        console.log(projectActions.length);
+        if (projectActions.length === 0) {
+            res.status(404).json({ message: 'The project with that ID does not exist.' });
+            return;
+        }
+        res.status(200).json(projectActions);
+    })
+    .catch(err => {
+        console.error('error', err);
+        res.status(500).json({ error: 'The project could not be retrieved.'})
+    })
+});
+
+server.get('/actions', (req, res) => {
+    dbAction.get()
+    .then(actions => {
+        res.status(200).json(actions);
+    })
+    .catch(err => {
+        console.error('error', err);
+         res.status(500).json({ error: 'The actions could not be retrieved.' });
+    })
+});
+
  server.listen(3000, () => console.log('/n== API on port 3000 ==/n') );
